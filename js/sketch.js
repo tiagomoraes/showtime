@@ -7,7 +7,7 @@ const CANVAS_X = 800;
 const CANVAS_Y = 800;
 
 const LIFESPAN = 500;
-const TARGET_SIZE = 100;
+const TARGET_SIZE = 50;
 const MAX_FORCE = 100;
 
 // ================ GLOBAL VARIABLES ================

@@ -73,7 +73,7 @@ function BamBam(dna) {
       this.vel.add(this.acc);
       this.pos.add(p5.Vector.mult(this.vel, this.dna.genes.ratio));
       this.acc.mult(0);
-      this.vel.limit(6);
+      this.vel.limit(5);
     }
 
   }
@@ -104,7 +104,7 @@ function BamBam(dna) {
     //translate to the postion of rocket
     translate(this.pos.x, this.pos.y);
     //rotatates to the angle the rocket is pointing
-    ellipse(0, 0, 10)
+    ellipse(0, 0, 8)
     //creates a rectangle shape for rocket
     pop();
 

@@ -9,7 +9,7 @@ function DNA(genes) {
     this.genes = {};
     this.genes.ratio = 0.5;
     this.genes.vectors = [];
-    for (var i = 0; i < LIFESPAN; i++) {
+    for (let i = 0; i < LIFESPAN; i++) {
       // Gives random vectors
       this.genes.vectors[i] = p5.Vector.random2D();
       // Sets maximum force of vector to be applied to a rocket
@@ -41,9 +41,9 @@ function DNA(genes) {
     return new DNA(newgenes);
   }
 
-  // Adds random mutation to the genes to add variance.
+  // Adds random mutation to the genes to add letiance.
   this.mutation = function() {
-    for (var i = 0; i < this.genes.vectors.length; i++) {
+    for (let i = 0; i < this.genes.vectors.length; i++) {
 
       // if random number less than 0.01, new gene is then random vector
       if (random(1) < 0.01) {
