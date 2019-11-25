@@ -29,7 +29,7 @@ function BamBam(dna) {
   }
 
   this.getStrength = function() {
-    return (MAX_FORCE - (this.dna.genes.ratio * MAX_FORCE));
+    return (MAX_STRENGTH - (this.dna.genes.ratio * MAX_STRENGTH));
   }
 
   this.applyForce = function(force) {
@@ -42,9 +42,14 @@ function BamBam(dna) {
     if(d <= TARGET_SIZE) {
       this.completed = true;
 
-      // get the firt time that reached target
+      // get the first time that reached target
       if(!this.completedTime) {
-        birlSound.play();
+
+        // only if soud is cheched
+        if(playSound) {
+          birlSound.play();
+        }
+
         this.completedTime = count;
       }
       this.pos = target.copy();
@@ -61,18 +66,17 @@ function BamBam(dna) {
           stop = 1;
         }
       }
-
-      // BamBam has hit left or right of window
-      if (this.pos.x > CANVAS_X || this.pos.x < 0) {
-        stop = 1;
-      }
-
-      // BamBam has hit top or bottom of window
-      if (this.pos.y > CANVAS_Y || this.pos.y < 0) {
-        stop = 1;
-      }
     });
 
+    // BamBam has hit left or right of window
+    if (this.pos.x > CANVAS_X || this.pos.x < 0) {
+      stop = 1;
+    }
+
+    // BamBam has hit top or bottom of window
+    if (this.pos.y > CANVAS_Y || this.pos.y < 0) {
+      stop = 1;
+    }
     
     // Only if BamBam can move
     if(!stop) {
@@ -80,7 +84,7 @@ function BamBam(dna) {
       this.vel.add(this.acc);
       this.pos.add(p5.Vector.mult(this.vel, this.dna.genes.ratio));
       this.acc.mult(0);
-      this.vel.limit(5);
+      this.vel.limit(MAX_SPEED);
     }
 
   }

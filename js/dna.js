@@ -13,7 +13,7 @@ function DNA(genes) {
       // Gives random vectors
       this.genes.vectors[i] = p5.Vector.random2D();
       // Sets maximum force of vector to be applied to a rocket
-      this.genes.vectors[i].setMag(0.01 * MAX_FORCE);
+      this.genes.vectors[i].setMag(MAX_FORCE);
     }
   }
   
@@ -41,18 +41,21 @@ function DNA(genes) {
     return new DNA(newgenes);
   }
 
-  // Adds random mutation to the genes to add letiance.
+  // Adds random mutation to the genes.
   this.mutation = function() {
+    if (random(1) < MUTATION_RATE*40) {
+      this.genes.ratio = random(this.genes.ratio - 0.1, this.genes.ratio + 0.1);
+    }
+    
     for (let i = 0; i < this.genes.vectors.length; i++) {
 
       // if random number less than 0.01, new gene is then random vector
-      if (random(1) < 0.005) {
-        this.genes.ratio = random(this.genes.ratio - 0.05, this.genes.ratio + 0.05);
+      if (random(1) < MUTATION_RATE) {
         if(this.genes.ratio > 1) {
           this.genes.ratio = 1;
         }
         this.genes.vectors[i] = p5.Vector.random2D();
-        this.genes.vectors[i].setMag(0.01 * MAX_FORCE);
+        this.genes.vectors[i].setMag(MAX_FORCE);
       }
     }
   }

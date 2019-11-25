@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
   <title>ShowTime</title>
   <link rel="shortcut icon" href="assets/images/bambam_img.png" type="image/png">
   <link rel="stylesheet" href="lib/bootstrap.min.css">
+  <link rel="stylesheet" href="lib/toasty.css">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="flex-container">
     <div class="canvas-container" id="canvas-container"></div>
@@ -19,6 +22,10 @@
       <p class="data-paragraph">Generation: <span class="data-inner" id="generation-count"></span></p>
       <p class="data-paragraph">Max Fitness: <span class="data-inner" id="max-fitness"></span></p>
       <br>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="sound" checked>
+        <label class="custom-control-label" for="sound">Sound Effects</label>
+      </div>
       <br>
       <h4>Set Parameters</h4>
       <hr>
@@ -30,13 +37,34 @@
         <label for="lifespan">Lifespan</label>
         <input type="number" id="lifespan" class="form-control">
       </div>
-      <button type="submit" class="btn btn-primary" id="set-btn">Set</button>
-
-
+      <div class="form-group">
+        <label for="max-speed">Max Speed</label>
+        <input type="number" id="max-speed" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="mutation-rate">Mutation Rate</label>
+        <input type="number" id="mutation-rate" class="form-control">
+      </div>
+      <button class="btn btn-primary" id="set-btn">Set</button>
+    </div>
+    <div class="form-container">
+      <h4>Change Map</h4>
+      <hr>
+      <div class="form-group">
+        <label for="barrier-strength">Barrier Strength (0 to 100)</label>
+        <input type="number" id="barrier-strength" class="form-control">
+      </div>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="add-barrier">
+        <label class="custom-control-label" for="add-barrier">Add Barrier</label>
+      </div>
+      <br>
+      <button class="btn btn-danger" id="reset">Reset</button>
     </div>
   </div>
   <script src="lib/jquery-3.4.1.min.js"></script>
   <script src="lib/bootstrap.min.js"></script>
+  <script src="lib/toasty.js"></script>
   <script src="lib/p5.min.js"></script>
   <script src="lib/p5.sound.min.js"></script>
   <script src="js/dna.js"></script>
@@ -45,4 +73,5 @@
   <script src="js/sketch.js"></script>
 
 </body>
+
 </html>
