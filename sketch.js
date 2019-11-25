@@ -136,11 +136,11 @@ const toggleSound = function() {
 // ================ SETUP & DRAW ================
 
 function preload() {
-  bambamImage = loadImage('../assets/images/bambam_img.png');
-  wheyImage = loadImage('../assets/images/whey_img.png');
-  birlSound = loadSound('../assets/sounds/birl.mp3');
-  yearsSound = loadSound('../assets/sounds/37_anos.mp3');
-  showSound = loadSound('../assets/sounds/hora_do_show.mp3');
+  bambamImage = loadImage('assets/images/bambam_img.png');
+  wheyImage = loadImage('assets/images/whey_img.png');
+  birlSound = loadSound('assets/sounds/birl.mp3');
+  yearsSound = loadSound('assets/sounds/37_anos.mp3');
+  showSound = loadSound('assets/sounds/hora_do_show.mp3');
 }
 
 function setup() {
