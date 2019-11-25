@@ -16,6 +16,7 @@ function BamBam(dna) {
 
   this.fitness = 0;
   this.completed = false;
+  this.completedTime = null;
   // ========== END CONSTRUCTOR ==========
 
 
@@ -40,6 +41,12 @@ function BamBam(dna) {
     // If distance is grater than target size, is completed!
     if(d <= TARGET_SIZE) {
       this.completed = true;
+
+      // get the firt time that reached target
+      if(!this.completedTime) {
+        birlSound.play();
+        this.completedTime = count;
+      }
       this.pos = target.copy();
     }
 
@@ -84,28 +91,45 @@ function BamBam(dna) {
     let diagonalLength = dist(0, 0, CANVAS_X, CANVAS_Y);
     let partial = map(distance, 0, diagonalLength, 100, 0);
     this.fitness = partial * partial;
-    // If rocket gets to target increase fitness of rocket
+    // If bambam gets to target increase fitness of bambam
     if (this.completed) {
-      this.fitness *= 10;
+      // favors who completes faster
+      let mapped = map(this.completedTime, 0, LIFESPAN, 15, 5);
+      this.fitness *= mapped;
     }
   }
 
   this.getColor = function() {
-    return (255*this.dna.genes.ratio);
+    return ({
+      r: 255 * this.dna.genes.ratio,
+      g: 255 * (1-this.dna.genes.ratio),
+      b: 0,
+    });
   }
 
   this.show = function() {
     // push and pop allow's rotating and translation not to affect other objects
     push();
-    //color customization of rockets
-    noStroke();
-    fill(this.getColor());
     
-    //translate to the postion of rocket
+    // color customization of bambam
+    noStroke();
+    let colorObject = this.getColor();
+    fill(colorObject.r, colorObject.g, colorObject.b);
+    
+    // translate to the postion of bambam
     translate(this.pos.x, this.pos.y);
-    //rotatates to the angle the rocket is pointing
-    ellipse(0, 0, 8)
-    //creates a rectangle shape for rocket
+    
+    imageMode(CENTER);
+    image(bambamImage, 0, 0, 40, 40);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    let strength = floor((1-this.dna.genes.ratio)*100);
+    text(strength, 0, -30);
+    // // Strength bar on top
+    // rectMode(CORNER);
+    // rect(-15, -30, (1 - this.dna.genes.ratio) * 40, 5);
+    
     pop();
 
   }

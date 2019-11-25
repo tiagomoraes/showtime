@@ -2,7 +2,7 @@ function Population() {
   // Array of bambans
   this.bambans = [];
   // Amount of bambans
-  this.popsize = 50;
+  this.popsize = POPULATION_SIZE;
   // Amount parent rocket partners
   this.matingpool = [];
 
@@ -24,7 +24,8 @@ function Population() {
       }
     }
 
-    console.log('Max Fitness = ' + maxfit)
+    // Sets the paragraph text with rounded fitness
+    maxFitnessSpan.html(round(maxfit))
 
     // Normalises fitnesses
     for (let i = 0; i < this.popsize; i++) {
@@ -41,7 +42,6 @@ function Population() {
         this.matingpool.push(this.bambans[i]);
       }
     }
-    console.log(this.matingpool.length)
   }
 
   // Selects appropriate genes for child

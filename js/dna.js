@@ -46,7 +46,7 @@ function DNA(genes) {
     for (let i = 0; i < this.genes.vectors.length; i++) {
 
       // if random number less than 0.01, new gene is then random vector
-      if (random(1) < 0.01) {
+      if (random(1) < 0.005) {
         this.genes.ratio = random(this.genes.ratio - 0.05, this.genes.ratio + 0.05);
         if(this.genes.ratio > 1) {
           this.genes.ratio = 1;
