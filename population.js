@@ -69,4 +69,14 @@ function Population() {
       this.bambans[i].show();
     }
   }
+
+  this.allStoped = function(){
+    let result = true;
+    for(let i = 0; i < bambans.length;i++){
+      if(!bambans[i].stop){
+        return false;
+      }
+    }
+    return result;
+  }
 }

@@ -17,6 +17,7 @@ function BamBam(dna) {
   this.fitness = 0;
   this.completed = false;
   this.completedTime = null;
+  this.stop = false;
   // ========== END CONSTRUCTOR ==========
 
 
@@ -55,7 +56,7 @@ function BamBam(dna) {
       this.pos = target.copy();
     }
 
-    let stop = 0;
+    this.stop = false;
 
     barriers.forEach((b) => {
       // BamBam hit the barrier
@@ -63,23 +64,23 @@ function BamBam(dna) {
 
         // if can't break barrier, don't move
         if(this.getStrength() < b.strength) {
-          stop = 1;
+          this.stop = true;
         }
       }
     });
 
     // BamBam has hit left or right of window
     if (this.pos.x > CANVAS_X || this.pos.x < 0) {
-      stop = 1;
+      this.stop = true;
     }
 
     // BamBam has hit top or bottom of window
     if (this.pos.y > CANVAS_Y || this.pos.y < 0) {
-      stop = 1;
+      this.stop = true;
     }
     
     // Only if BamBam can move
-    if(!stop) {
+    if(!this.stop) {
       this.applyForce(this.dna.genes.vectors[count]);
       this.vel.add(this.acc);
       this.pos.add(p5.Vector.mult(this.vel, this.dna.genes.ratio));

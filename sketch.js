@@ -200,7 +200,7 @@ function draw() {
   }
 
   count++;
-  if (count >= LIFESPAN) {
+  if (count >= LIFESPAN || population.allStoped()) {
     genCount++;
 
     // "eh 37 anos" sound
