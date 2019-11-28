@@ -64,7 +64,9 @@ function Population() {
   // Calls for update and show functions
   this.run = function() {
     for (let i = 0; i < this.popsize; i++) {
-      this.bambans[i].update();
+      //for(let j = 0; j < 10; j++ ){
+        this.bambans[i].update();
+      //}
       // Displays bambans to screen
       this.bambans[i].show();
     }

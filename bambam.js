@@ -42,21 +42,20 @@ function BamBam(dna) {
     // If distance is grater than target size, is completed!
     if(d <= TARGET_SIZE) {
       this.completed = true;
-
+      this.stop = true;
+      
       // get the first time that reached target
       if(!this.completedTime) {
-
+        
         // only if soud is cheched
         if(playSound) {
           birlSound.play();
         }
-
+        
         this.completedTime = count;
       }
       this.pos = target.copy();
     }
-
-    this.stop = false;
 
     barriers.forEach((b) => {
       // BamBam hit the barrier
