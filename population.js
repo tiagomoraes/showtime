@@ -72,8 +72,8 @@ function Population() {
 
   this.allStoped = function(){
     let result = true;
-    for(let i = 0; i < bambans.length;i++){
-      if(!bambans[i].stop){
+    for(let i = 0; i < this.bambans.length;i++){
+      if(!this.bambans[i].stop){
         return false;
       }
     }
