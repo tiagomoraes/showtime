@@ -71,8 +71,8 @@ function Population() {
   this.run = function() {
     for (let i = 0; i < this.popsize; i++) {
       for(let j = 0; j < SPEED_MULTIPLIER; j++ ){
-        count ++;
         this.bambans[i].update();
+        count ++;
       }
       count -= SPEED_MULTIPLIER;
       // Displays bambans to screen
