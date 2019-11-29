@@ -64,9 +64,23 @@ function Population() {
   // Calls for update and show functions
   this.run = function() {
     for (let i = 0; i < this.popsize; i++) {
-      this.bambans[i].update();
+      for(let j = 0; j < speedMultiplier; j++ ){
+        this.bambans[i].update();
+      }
       // Displays bambans to screen
-      this.bambans[i].show();
+      if(speedMultiplier <= 10){
+        this.bambans[i].show();
+      }
     }
+  }
+
+  this.allStoped = function(){
+    let result = true;
+    for(let i = 0; i < this.bambans.length;i++){
+      if(!this.bambans[i].stop){
+        return false;
+      }
+    }
+    return result;
   }
 }

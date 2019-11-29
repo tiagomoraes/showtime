@@ -32,6 +32,7 @@ let wheyImage;
 let birlSound;
 let yearsSound;
 let showSound;
+let speedMultiplier = 1;
 
 // HTML objects
 let frameCountSpan;
@@ -180,7 +181,7 @@ function setup() {
 
 function draw() {
   clear();
-  population.run();
+  population.run(speedMultiplier);
 
   // Displays count to window
   frameCountSpan.html(count);
@@ -200,7 +201,7 @@ function draw() {
   }
 
   count++;
-  if (count >= LIFESPAN) {
+  if (count >= LIFESPAN || population.allStoped()) {
     genCount++;
 
     // "eh 37 anos" sound
