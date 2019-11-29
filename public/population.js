@@ -64,11 +64,11 @@ function Population() {
   // Calls for update and show functions
   this.run = function() {
     for (let i = 0; i < this.popsize; i++) {
-      for(let j = 0; j < speedMultiplier; j++ ){
+      for(let j = 0; j < SPEED_MULTIPLIER; j++ ){
         this.bambans[i].update();
       }
       // Displays bambans to screen
-      if(speedMultiplier <= 10){
+      if(SPEED_MULTIPLIER <= 10){
         this.bambans[i].show();
       }
     }

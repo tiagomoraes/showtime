@@ -26,13 +26,13 @@ let LIFESPAN = 500;
 let POPULATION_SIZE = 20;
 let MAX_SPEED = 5;
 let MUTATION_RATE = 0.005;
+let SPEED_MULTIPLIER = 1;
 
 let bambamImage;
 let wheyImage;
 let birlSound;
 let yearsSound;
 let showSound;
-let speedMultiplier = 1;
 
 // HTML objects
 let frameCountSpan;
@@ -44,6 +44,7 @@ let popSizeInput;
 let lifespanInput;
 let maxSpeedInput;
 let mutationInput;
+let viewSpeedInput;
 let addBarriersCheck;
 let addBarrierStrength;
 let resetBtn;
@@ -76,6 +77,7 @@ const resetPopulation = function () {
   POPULATION_SIZE = parseInt(popSizeInput.value());
   MAX_SPEED = parseInt(maxSpeedInput.value());
   MUTATION_RATE = parseFloat(mutationInput.value());
+  SPEED_MULTIPLIER = parseInt(viewSpeedInput.value());
 
   population = new Population();
   target = createVector(CANVAS_X / 2, 50);
@@ -153,6 +155,7 @@ function setup() {
   lifespanInput = select('#lifespan');
   maxSpeedInput = select('#max-speed');
   mutationInput = select('#mutation-rate');
+  viewSpeedInput = select('#view-speed');
   addBarriersCheck = select('#add-barrier');
   addBarrierStrength = select('#barrier-strength');
   resetBtn = select('#reset');
@@ -162,6 +165,7 @@ function setup() {
   lifespanInput.value(LIFESPAN);
   maxSpeedInput.value(MAX_SPEED);
   mutationInput.value(MUTATION_RATE);
+  viewSpeedInput.value(SPEED_MULTIPLIER);
   addBarrierStrength.value(50);
 
   resetPopulation();
@@ -181,7 +185,7 @@ function setup() {
 
 function draw() {
   clear();
-  population.run(speedMultiplier);
+  population.run(SPEED_MULTIPLIER);
 
   // Displays count to window
   frameCountSpan.html(count);
