@@ -9,7 +9,7 @@ const CANVAS_Y = 800;
 const TARGET_SIZE = 50;
 const MAX_FORCE = 1;
 const MAX_STRENGTH = 100;
-const INF = 100000000;
+const INF = 1000000;
 
 const toast = new Toasty();
 
@@ -24,10 +24,10 @@ let addBarrierDragging = false;
 let playSound = true;
 let map_matrix = [];
 
-let LIFESPAN = 500;
+let LIFESPAN = 200;
 let POPULATION_SIZE = 20;
-let MAX_SPEED = 5;
-let MUTATION_RATE = 0.005;
+let MAX_SPEED = 60;
+let MUTATION_RATE = 0.02;
 
 let bambamImage;
 let wheyImage;
@@ -94,14 +94,14 @@ const initMatrix = function() {
   for(let i = 0; i <= CANVAS_X; i++) {
     map_matrix[i] = [];
     for(let j = 0; j <= CANVAS_Y; j++) {
-      map_matrix[i][j] = {strength: 0, d: dist(i, j, target.x, target.y), v: INF};
+      map_matrix[i][j] = {strength: 0, d: parseInt(dist(i, j, target.x, target.y)), v: INF};
     }
   }
 }
 
 const setInfMatrix = function() {
-  for(let i = 0; i < CANVAS_X; i++) {
-    for(let j = 0; j < CANVAS_Y; j++) {
+  for(let i = 0; i <= CANVAS_X; i++) {
+    for(let j = 0; j <= CANVAS_Y; j++) {
       map_matrix[i][j].v = INF;
     }
   }

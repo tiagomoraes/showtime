@@ -1,6 +1,6 @@
 function BamBam(dna) {
   // ========== CONSTRUCTOR ==========
-  this.pos = createVector(CANVAS_X/2, CANVAS_Y);
+  this.pos = createVector(CANVAS_X/2, CANVAS_Y-20);
   this.vel = createVector();
   this.acc = createVector();
 
@@ -23,8 +23,11 @@ function BamBam(dna) {
   this.getDistanceFromObjective = function() {
 
     // Replace this with A*
-    let d = aStar(parseInt(this.pos.x), parseInt(this.pos.y), parseInt(target.x), parseInt(target.y), this.getStrength());
-    console.log(d + ' ' + dist(this.pos.x, this.pos.y, target.x, target.y));
+    let d = aStar(parseInt(Math.floor(this.pos.x)), Math.floor(parseInt(this.pos.y)), Math.floor(parseInt(target.x)), Math.floor(parseInt(target.y)), this.getStrength());
+    // barriers.forEach((b) => {
+    //   console.log(b);
+    // });
+    //console.log(d + ' ' + dist(this.pos.x, this.pos.y, target.x, target.y));
     return d;
   }
 
@@ -43,8 +46,8 @@ function BamBam(dna) {
   }
 
   let aStar = function(x, y, tx, ty, strength) {
-    x = max(0, x), y = max(0, x);
-    x = min(CANVAS_X-1, x), y = min(CANVAS_Y-1, y);
+    x = max(0, x), y = max(0, y);
+    x = min(CANVAS_X, x), y = min(CANVAS_Y, y);
     let heap = new BinaryHeap((elem) => {
       return elem.d;
     });
@@ -57,11 +60,11 @@ function BamBam(dna) {
       
       let current = heap.pop();
 
-      if (current.d > map_matrix.v) continue;
+      //if (current.d > map_matrix.v) continue;
       
       let cx = current.point.x, cy = current.point.y;
 
-      //l = heuristic(cx, cy);
+      let h_old = heuristic(cx, cy);
       let h_new;
       
       if (cx == tx && cy == ty) {
@@ -71,39 +74,40 @@ function BamBam(dna) {
       if (isValid(cx+1, cy, strength)) {
         h_new = heuristic(cx+1, cy);
         if (isLess(current.d + 1 + h_new, map_matrix[cx+1][cy].v)) {
-          map_matrix[cx+1][cy].v = current.d + 1 + h_new;
+          map_matrix[cx+1][cy].v = current.d + 1 + h_new- h_old;
           heap.push({point: {x: cx+1, y:cy}, 
-                              d: current.d + 1 + h_new}); 
+                              d: current.d + 1 + h_new - h_old}); 
         }
       }
       
       if (isValid(cx, cy+1, strength)) {
         h_new = heuristic(cx, cy+1);
         if (isLess(current.d + 1 + h_new, map_matrix[cx][cy+1].v)) {
-          map_matrix[cx][cy+1].v = current.d + 1 + h_new;
+          map_matrix[cx][cy+1].v = current.d + 1 + h_new - h_old;
           heap.push({point: {x: cx, y:cy+1}, 
-                              d: current.d + 1 + h_new});
+                              d: current.d + 1 + h_new - h_old});
         }
       }
       
       if (isValid(cx-1, cy, strength)) {
         h_new = heuristic(cx-1, cy);
         if (isLess(current.d + 1 + h_new, map_matrix[cx-1][cy].v)) {
-          map_matrix[cx-1][cy].v = current.d + 1 + h_new;
+          map_matrix[cx-1][cy].v = current.d + 1 + h_new - h_old;
           heap.push({point: {x: cx-1, y:cy}, 
-                              d: current.d + 1 + h_new}); 
+                              d: current.d + 1 + h_new - h_old}); 
         }
       }
       
       if (isValid(cx, cy-1, strength)) {
         h_new = heuristic(cx, cy-1);
         if (isLess(current.d + 1 + h_new, map_matrix[cx][cy-1].v)) {
-          map_matrix[cx][cy-1].v = current.d + 1 + h_new;
+          map_matrix[cx][cy-1].v = current.d + 1 + h_new - h_old;
           heap.push({point: {x: cx, y:cy-1}, 
-            d: current.d + 1 + h_new});
+            d: current.d + 1 + h_new - h_old});
         }
       }
     }
+    console.log(x + ' ' + y);
     return INF;
   }
 
@@ -138,22 +142,26 @@ function BamBam(dna) {
 
     barriers.forEach((b) => {
       // BamBam hit the barrier
-      if (this.pos.x > b.x && this.pos.x < b.x + b.width && this.pos.y > b.y && this.pos.y < b.y + b.height) {
+      if (this.pos.x+10 >= b.x && this.pos.x-10 <= b.x + b.width && this.pos.y+10 >= b.y && this.pos.y-10 <= b.y + b.height) {
 
         // if can't break barrier, don't move
-        if(this.getStrength() < b.strength) {
+        if(parseInt(Math.floor(this.getStrength())) < b.strength) {
+          //while (this.pos.x >= b.x) this.pos.x = this.pos.x - 2;
+          //while (this.pos.x <= b.x + b.width) this.pos.x = this.pos.x + 2;
+          //while (this.pos.y >= b.y) this.pos.y = this.pos.y - 2;
+          //while (this.pos.y <= b.y + b.height) this.pos.y = this.pos.y + 2;
           stop = 1;
         }
       }
     });
 
     // BamBam has hit left or right of window
-    if (this.pos.x > CANVAS_X || this.pos.x < 0) {
+    if (this.pos.x+10 > CANVAS_X || this.pos.x-10 < 0) {
       stop = 1;
     }
 
     // BamBam has hit top or bottom of window
-    if (this.pos.y > CANVAS_Y || this.pos.y < 0) {
+    if (this.pos.y+10 > CANVAS_Y || this.pos.y-10 < 0) {
       stop = 1;
     }
     
