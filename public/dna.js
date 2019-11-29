@@ -12,7 +12,7 @@ function DNA(genes) {
     for (let i = 0; i < LIFESPAN; i++) {
       // Gives random vectors
       this.genes.vectors[i] = p5.Vector.random2D();
-      // Sets maximum force of vector to be applied to a rocket
+      // Sets maximum force of vector to be applied to a bambam
       this.genes.vectors[i].setMag(MAX_FORCE);
     }
   }

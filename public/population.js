@@ -3,12 +3,18 @@ function Population() {
   this.bambans = [];
   // Amount of bambans
   this.popsize = POPULATION_SIZE;
-  // Amount parent rocket partners
+  // Amount parent bambam partners
   this.matingpool = [];
 
-  // Associates a rocket to an array index
+  // Associates a bambam to an array index
   for (let i = 0; i < this.popsize; i++) {
     this.bambans[i] = new BamBam();
+  }
+
+  this.resetPosition = function() {
+    for(let i = 0; i < this.bambans.length; i++) {
+      this.bambans[i].pos.set(0, 0);
+    }
   }
 
   this.evaluate = function() {
@@ -34,7 +40,7 @@ function Population() {
 
     this.matingpool = [];
     // Take bambans fitness make in to scale of 1 to 100
-    // A rocket with high fitness will highly likely will be in the mating pool
+    // A bambam with high fitness will highly likely will be in the mating pool
     for (let i = 0; i < this.popsize; i++) {
       let n = this.bambans[i].fitness * 100;
       
@@ -54,7 +60,7 @@ function Population() {
       // Creates child by using crossover function
       let child = parentA.crossover(parentB);
       child.mutation();
-      // Creates new rocket with child dna
+      // Creates new bambam with child dna
       newBambans[i] = new BamBam(child);
     }
     // This instance of bambans are the new bambans
@@ -65,8 +71,10 @@ function Population() {
   this.run = function() {
     for (let i = 0; i < this.popsize; i++) {
       for(let j = 0; j < SPEED_MULTIPLIER; j++ ){
+        count ++;
         this.bambans[i].update();
       }
+      count -= SPEED_MULTIPLIER;
       // Displays bambans to screen
       if(SPEED_MULTIPLIER <= 10){
         this.bambans[i].show();

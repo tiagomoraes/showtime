@@ -44,7 +44,7 @@ let popSizeInput;
 let lifespanInput;
 let maxSpeedInput;
 let mutationInput;
-let viewSpeedInput;
+let viewSpeedSel;
 let addBarriersCheck;
 let addBarrierStrength;
 let resetBtn;
@@ -72,12 +72,19 @@ const drawBarriers = function () {
   })
 }
 
+const setSpeed = function() {
+  SPEED_MULTIPLIER = parseInt(viewSpeedSel.value());
+  population.resetPosition();
+  count = 0;
+  // this.draw();
+}
+
 const resetPopulation = function () {
   LIFESPAN = parseInt(lifespanInput.value());
   POPULATION_SIZE = parseInt(popSizeInput.value());
   MAX_SPEED = parseInt(maxSpeedInput.value());
   MUTATION_RATE = parseFloat(mutationInput.value());
-  SPEED_MULTIPLIER = parseInt(viewSpeedInput.value());
+  SPEED_MULTIPLIER = parseInt(viewSpeedSel.value());
 
   population = new Population();
   target = createVector(CANVAS_X / 2, 50);
@@ -88,7 +95,17 @@ const resetPopulation = function () {
 
 const resetAll = function() {
   barriers = [];
-  resetPopulation();
+  LIFESPAN = parseInt(500);
+  POPULATION_SIZE = parseInt(20);
+  MAX_SPEED = parseInt(5);
+  MUTATION_RATE = parseFloat(0.005);
+  SPEED_MULTIPLIER = parseInt(1);
+
+  population = new Population();
+  target = createVector(CANVAS_X / 2, 50);
+
+  count = 0;
+  genCount = 1;
 }
 
 const handleAddBarriersChange = function () {
@@ -155,7 +172,7 @@ function setup() {
   lifespanInput = select('#lifespan');
   maxSpeedInput = select('#max-speed');
   mutationInput = select('#mutation-rate');
-  viewSpeedInput = select('#view-speed');
+  viewSpeedSel = select('#view-speed');
   addBarriersCheck = select('#add-barrier');
   addBarrierStrength = select('#barrier-strength');
   resetBtn = select('#reset');
@@ -165,12 +182,13 @@ function setup() {
   lifespanInput.value(LIFESPAN);
   maxSpeedInput.value(MAX_SPEED);
   mutationInput.value(MUTATION_RATE);
-  viewSpeedInput.value(SPEED_MULTIPLIER);
+  viewSpeedSel.value(SPEED_MULTIPLIER);
   addBarrierStrength.value(50);
 
   resetPopulation();
 
   // Event listeners
+  viewSpeedSel.changed(setSpeed);
   soundCheck.changed(toggleSound);
   setBtn.mousePressed(resetPopulation);
   addBarriersCheck.changed(handleAddBarriersChange);
@@ -185,7 +203,12 @@ function setup() {
 
 function draw() {
   clear();
-  population.run(SPEED_MULTIPLIER);
+
+  if((SPEED_MULTIPLIER + count) > LIFESPAN) {
+    population.run(LIFESPAN - count);
+  } else {
+    population.run(SPEED_MULTIPLIER);
+  }
 
   // Displays count to window
   frameCountSpan.html(count);
@@ -204,7 +227,7 @@ function draw() {
     rect(beginX, beginY, endX - beginX, endY - beginY);
   }
 
-  count++;
+  count += SPEED_MULTIPLIER;
   if (count >= LIFESPAN || population.allStoped()) {
     genCount++;
 
