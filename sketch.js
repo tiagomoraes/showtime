@@ -9,7 +9,7 @@ const CANVAS_Y = 800;
 const TARGET_SIZE = 50;
 const MAX_FORCE = 1;
 const MAX_STRENGTH = 100;
-const INF = 1000000;
+let INF;
 
 const toast = new Toasty();
 
@@ -27,7 +27,7 @@ let map_matrix = [];
 let LIFESPAN = 200;
 let POPULATION_SIZE = 20;
 let MAX_SPEED = 60;
-let MUTATION_RATE = 0.02;
+let MUTATION_RATE = 0.005;
 
 let bambamImage;
 let wheyImage;
@@ -169,6 +169,7 @@ function preload() {
 }
 
 function setup() {
+  INF = 2*parseInt(dist(0, 0, CANVAS_X, CANVAS_Y)) - 5;
   frameCountSpan = select('#frame-count');
   generationCountSpan = select('#generation-count');
   maxFitnessSpan = select('#max-fitness');

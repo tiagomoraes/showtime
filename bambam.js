@@ -142,7 +142,7 @@ function BamBam(dna) {
 
     barriers.forEach((b) => {
       // BamBam hit the barrier
-      if (this.pos.x+10 >= b.x && this.pos.x-10 <= b.x + b.width && this.pos.y+10 >= b.y && this.pos.y-10 <= b.y + b.height) {
+      if (this.pos.x+13 >= b.x && this.pos.x-13 <= b.x + b.width && this.pos.y+13 >= b.y && this.pos.y-13 <= b.y + b.height) {
 
         // if can't break barrier, don't move
         if(parseInt(Math.floor(this.getStrength())) < b.strength) {
@@ -156,12 +156,12 @@ function BamBam(dna) {
     });
 
     // BamBam has hit left or right of window
-    if (this.pos.x+10 > CANVAS_X || this.pos.x-10 < 0) {
+    if (this.pos.x+13 > CANVAS_X || this.pos.x-13 < 0) {
       stop = 1;
     }
 
     // BamBam has hit top or bottom of window
-    if (this.pos.y+10 > CANVAS_Y || this.pos.y-10 < 0) {
+    if (this.pos.y+13 > CANVAS_Y || this.pos.y-13 < 0) {
       stop = 1;
     }
     
@@ -182,7 +182,7 @@ function BamBam(dna) {
     
     // Maps range of fitness
     let diagonalLength = dist(0, 0, CANVAS_X, CANVAS_Y);
-    let partial = map(distance, 0, diagonalLength, 100, 0);
+    let partial = map(distance, 0, 2*parseInt(diagonalLength) + 1, 130, 0);
     this.fitness = partial * partial;
     // If bambam gets to target increase fitness of bambam
     if (this.completed) {
@@ -217,7 +217,7 @@ function BamBam(dna) {
     
     fill(0);
     textAlign(CENTER, CENTER);
-    let strength = floor((1-this.dna.genes.ratio)*100);
+    let strength = floor((1-this.dna.genes.ratio)*130);
     text(strength, 0, -30);
     // // Strength bar on top
     // rectMode(CORNER);
