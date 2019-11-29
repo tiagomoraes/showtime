@@ -1,0 +1,31 @@
+{
+  "name": "showtime",
+  "version": "1.0.0",
+  "description": "Project for SI - 2019.2",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiagomoraes/showtime.git"
+  },
+  "keywords": [
+    "bambam",
+    "showtime",
+    "si"
+  ],
+  "author": "ejas, mbmt, vdj, tbm2",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tiagomoraes/showtime/issues"
+  },
+  "homepage": "https://github.com/tiagomoraes/showtime#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
