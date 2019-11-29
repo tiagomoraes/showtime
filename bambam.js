@@ -1,5 +1,4 @@
 function BamBam(dna) {
-
   // ========== CONSTRUCTOR ==========
   this.pos = createVector(CANVAS_X/2, CANVAS_Y);
   this.vel = createVector();
@@ -24,8 +23,88 @@ function BamBam(dna) {
   this.getDistanceFromObjective = function() {
 
     // Replace this with A*
-    let d = dist(this.pos.x, this.pos.y, target.x, target.y);
+    let d = aStar(parseInt(this.pos.x), parseInt(this.pos.y), parseInt(target.x), parseInt(target.y), this.getStrength());
+    console.log(d + ' ' + dist(this.pos.x, this.pos.y, target.x, target.y));
     return d;
+  }
+
+  let isValid = function(x, y, strength) {
+    if (x >= 0 && x <= CANVAS_X && y >= 0 && y <= CANVAS_Y && strength >= map_matrix[x][y].strength) {
+      return true;
+    } else return false;
+  }
+
+  let isLess = function(new_dist, actual_dist) {
+    return new_dist < actual_dist;
+  }
+
+  let heuristic = function(x, y) {
+    return map_matrix[x][y].d;
+  }
+
+  let aStar = function(x, y, tx, ty, strength) {
+    x = max(0, x), y = max(0, x);
+    x = min(CANVAS_X-1, x), y = min(CANVAS_Y-1, y);
+    let heap = new BinaryHeap((elem) => {
+      return elem.d;
+    });
+    
+    setInfMatrix();
+    heap.push({point: {x: x, y: y}, d: heuristic(x, y)});
+    map_matrix[x][y].v = heuristic(x, y);
+    
+    while (heap.size() > 0) {
+      
+      let current = heap.pop();
+
+      if (current.d > map_matrix.v) continue;
+      
+      let cx = current.point.x, cy = current.point.y;
+
+      //l = heuristic(cx, cy);
+      let h_new;
+      
+      if (cx == tx && cy == ty) {
+        return current.d;
+      }
+      
+      if (isValid(cx+1, cy, strength)) {
+        h_new = heuristic(cx+1, cy);
+        if (isLess(current.d + 1 + h_new, map_matrix[cx+1][cy].v)) {
+          map_matrix[cx+1][cy].v = current.d + 1 + h_new;
+          heap.push({point: {x: cx+1, y:cy}, 
+                              d: current.d + 1 + h_new}); 
+        }
+      }
+      
+      if (isValid(cx, cy+1, strength)) {
+        h_new = heuristic(cx, cy+1);
+        if (isLess(current.d + 1 + h_new, map_matrix[cx][cy+1].v)) {
+          map_matrix[cx][cy+1].v = current.d + 1 + h_new;
+          heap.push({point: {x: cx, y:cy+1}, 
+                              d: current.d + 1 + h_new});
+        }
+      }
+      
+      if (isValid(cx-1, cy, strength)) {
+        h_new = heuristic(cx-1, cy);
+        if (isLess(current.d + 1 + h_new, map_matrix[cx-1][cy].v)) {
+          map_matrix[cx-1][cy].v = current.d + 1 + h_new;
+          heap.push({point: {x: cx-1, y:cy}, 
+                              d: current.d + 1 + h_new}); 
+        }
+      }
+      
+      if (isValid(cx, cy-1, strength)) {
+        h_new = heuristic(cx, cy-1);
+        if (isLess(current.d + 1 + h_new, map_matrix[cx][cy-1].v)) {
+          map_matrix[cx][cy-1].v = current.d + 1 + h_new;
+          heap.push({point: {x: cx, y:cy-1}, 
+            d: current.d + 1 + h_new});
+        }
+      }
+    }
+    return INF;
   }
 
   this.getStrength = function() {
@@ -90,7 +169,9 @@ function BamBam(dna) {
   }
 
   this.calcFitness = function() {
+    
     let distance = this.getDistanceFromObjective();
+    
     // Maps range of fitness
     let diagonalLength = dist(0, 0, CANVAS_X, CANVAS_Y);
     let partial = map(distance, 0, diagonalLength, 100, 0);

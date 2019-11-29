@@ -9,6 +9,7 @@ const CANVAS_Y = 800;
 const TARGET_SIZE = 50;
 const MAX_FORCE = 1;
 const MAX_STRENGTH = 100;
+const INF = 100000000;
 
 const toast = new Toasty();
 
@@ -21,6 +22,7 @@ let barriers = [];
 let addingBarrier = false;
 let addBarrierDragging = false;
 let playSound = true;
+let map_matrix = [];
 
 let LIFESPAN = 500;
 let POPULATION_SIZE = 20;
@@ -55,6 +57,11 @@ const getBarrierColor = function (strength) {
 
 const addBarrier = function (x, y, width, height, strength) {
   barriers.push({ x, y, width, height, strength });
+  for(let i = parseInt(Math.ceil(x)); i <= parseInt(Math.floor(x+width)); i++) {
+    for(let j = parseInt(Math.ceil(y)); j <= parseInt(Math.floor(y+height)); j++) {
+      map_matrix[i][j].strength = strength;
+    }
+  }
 }
 
 const drawBarriers = function () {
@@ -83,8 +90,26 @@ const resetPopulation = function () {
   genCount = 1;
 }
 
+const initMatrix = function() {
+  for(let i = 0; i <= CANVAS_X; i++) {
+    map_matrix[i] = [];
+    for(let j = 0; j <= CANVAS_Y; j++) {
+      map_matrix[i][j] = {strength: 0, d: dist(i, j, target.x, target.y), v: INF};
+    }
+  }
+}
+
+const setInfMatrix = function() {
+  for(let i = 0; i < CANVAS_X; i++) {
+    for(let j = 0; j < CANVAS_Y; j++) {
+      map_matrix[i][j].v = INF;
+    }
+  }
+}
+
 const resetAll = function() {
   barriers = [];
+  initMatrix();
   resetPopulation();
 }
 
@@ -162,9 +187,7 @@ function setup() {
   maxSpeedInput.value(MAX_SPEED);
   mutationInput.value(MUTATION_RATE);
   addBarrierStrength.value(50);
-
   resetPopulation();
-
   // Event listeners
   soundCheck.changed(toggleSound);
   setBtn.mousePressed(resetPopulation);
@@ -176,6 +199,9 @@ function setup() {
 
   canvas.mousePressed(canvasMousePressed);
   canvas.mouseReleased(canvasMouseReleased);
+
+  // initializing map matrix
+  initMatrix();
 }
 
 function draw() {
@@ -211,7 +237,6 @@ function draw() {
         showSound.play();
       }
     }
-
     population.evaluate();
     population.selection();
     count = 0;
